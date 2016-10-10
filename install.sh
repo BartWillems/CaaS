@@ -22,7 +22,10 @@ mysql -u root -e "USE CaaS; CREATE USER 'CaaS_admin'@'localhost' IDENTIFIED BY '
 mysql -u root -e "GRANT ALL PRIVILEGES ON CaaS.* TO 'CaaS_admin'@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;";
 mysql -u root -e "USE CaaS; CREATE TABLE users(username VARCHAR(24) PRIMARY KEY, password VARCHAR(60) NOT NULL);";
 
-# TODO
+# TEMP: in the future, I will allow for custom $HTML locations
+rm -rf /var/www/html
+git clone https://github.com/BartWillems/CaaS_website /var/www/html
+
 # Insert password in /var/www/html/connection.php
 if grep -q '$password = ' /var/www/html/connection.php; then
     sed -i "/\$password = /c\\$PASSWORD" /var/www/html/connection.php
