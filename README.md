@@ -5,6 +5,7 @@ CaaS is a docker platform that lets you use a containerized computer with a desk
 ## Getting Started
 
 To begin using CaaS you should 
+* Install docker
 * Install a LAMP stack
 * clone [this](https://github.com/BartWillems/CaaS) repo (git clone https://github.com/BartWillems/CaaS) and run install.sh
 
