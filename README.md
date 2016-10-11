@@ -2,6 +2,9 @@
 
 CaaS is a docker platform that lets you use a containerized computer with a desktop environmen using a vnc client or simply in your webbrower.
 
+## Preview (completely unfinished)
+![Website](https://raw.githubusercontent.com/BartWillems/CaaS/master/caas.png)
+
 ## Getting Started
 
 To begin using CaaS you should 
