@@ -23,6 +23,9 @@ mysql -u root -e "USE CaaS; CREATE USER 'CaaS_admin'@'localhost' IDENTIFIED BY '
 mysql -u root -e "GRANT ALL PRIVILEGES ON CaaS.* TO 'CaaS_admin'@'localhost' IDENTIFIED BY '$PASSWORD' WITH GRANT OPTION;";
 mysql -u root -e "USE CaaS; CREATE TABLE users(username VARCHAR(24) PRIMARY KEY, password VARCHAR(60) NOT NULL);";
 mysql -u root -e "USE CaaS; CREATE TABLE containers(fq_container_name VARCHAR(60) NOT NULL, username VARCHAR(24) NOT NULL, container_name VARCHAR(60) NOT NULL, container_id INT PRIMARY KEY);";
+mysql -u root -e "USE CaaS; create table admin_approval(username VARCHAR(24) PRIMARY KEY);";
+mysql -u root -e "USE CaaS; create table configuration(port_range VARCHAR(12) PRIMARY KEY);";
+mysql -u root -e "USE CaaS; INSERT INTO configuration values('0-0');";
 
 # TEMP: in the future, I will allow for custom $HTML locations
 rm -rf /var/www/html
