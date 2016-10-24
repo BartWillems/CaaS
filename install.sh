@@ -6,10 +6,10 @@ if [ "$EUID" -ne 0 ]
 fi
 
 
-echo "Enter a new  mysql user password for the user 'CaaS_admin'"
+echo -n "Enter a new  mysql user password for the user 'CaaS_admin': "
 read -s PASSWORD;
 
-echo "Repeat the password"
+echo -n "Repeat the password: "
 read -s PASSWORD_CONFIRM;
 
 if [ $PASSWORD != $PASSWORD_CONFIRM ]
@@ -32,10 +32,10 @@ rm -rf /var/www/html
 git clone https://github.com/BartWillems/CaaS_website /var/www/html
 
 # Insert password in /var/www/html/connection.php
-if grep -q '$password = ' /var/www/html/connection.php; then
-    sed -i "/\$password = /c\\$PASSWORD" /var/www/html/connection.php
+if grep -q '$password = ' /var/www/html/php_functions/connection.php; then
+    sed -i "/\$password = /c\\$PASSWORD" /var/www/html/php_functions/connection.php
 else
-    echo "\$password = $PASSWORD" >> /var/www/html/connection.php
+    echo "\$password = $PASSWORD" >> /var/www/html/php_functions/connection.php
 fi
 
 echo "Downloading the container config files..."
@@ -48,4 +48,4 @@ chmod 4744 /usr/local/bin/CaaS_listener.sh
 echo "## Allow apache to use sudo ONLY on /usr/local/bin/CaaS_listener.sh
     Cmnd_Alias CSCRIPT = /usr/local/bin/CaaS_listener.sh
     %wheel ALL=(root)   NOPASSWD: CSCRIPT
-    Defaults!CSCRIPT !requiretty" > /etc/suders.d/CaaS
+    Defaults!CSCRIPT !requiretty" > /etc/sudoers.d/CaaS
