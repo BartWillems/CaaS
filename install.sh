@@ -28,14 +28,15 @@ mysql -u root -e "USE CaaS; create table configuration(port_range VARCHAR(12) PR
 mysql -u root -e "USE CaaS; INSERT INTO configuration values('0-0');";
 
 # TEMP: in the future, I will allow for custom $HTML locations
-rm -rf /var/www/html
+# rm -rf /var/www/html
+#git clone https://github.com/BartWillems/CaaS_website /var/www/html
 git clone https://github.com/BartWillems/CaaS_website /var/www/html
 
 # Insert password in /var/www/html/connection.php
-if grep -q '$password = ' /var/www/html/php_functions/connection.php; then
-    sed -i "/\$password = /c\\$PASSWORD" /var/www/html/php_functions/connection.php
+if grep -q '$db_password = ' /var/www/html/php_functions/connection.php; then
+    sed -i "/\$db_password = /c\\$PASSWORD" /var/www/html/php_functions/connection.php
 else
-    echo "\$password = $PASSWORD" >> /var/www/html/php_functions/connection.php
+    echo "\$db_password = $PASSWORD" >> /var/www/html/php_functions/connection.php
 fi
 
 echo "Downloading the container config files..."
