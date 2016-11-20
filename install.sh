@@ -45,5 +45,5 @@ chmod 4744 /usr/local/bin/CaaS_listener.sh
 # Allow for passwordless shell_exec only the caas listener
 echo "## Allow apache to use sudo ONLY on /usr/local/bin/CaaS_listener.sh
     Cmnd_Alias CSCRIPT = /usr/local/bin/CaaS_listener.sh
-    %wheel ALL=(root)   NOPASSWD: CSCRIPT
+    www-data ALL=(root)   NOPASSWD: CSCRIPT
     Defaults!CSCRIPT !requiretty" > /etc/sudoers.d/CaaS
