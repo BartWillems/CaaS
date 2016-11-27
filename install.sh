@@ -37,13 +37,8 @@ else
 fi
 
 echo "Downloading the container config files..."
-git clone https://github.com/fcwu/docker-ubuntu-vnc-desktop.git /opt/docker-ubuntu-vnc-desktop
+git clone https://github.com/BartWillems/docker-ubuntu-vnc-desktop /opt/docker-ubuntu-vnc-desktop
+sudo chown -R www-data /opt/docker-ubuntu-vnc-desktop
 ln -s $(pwd)/CaaS_listener.sh /usr/local/bin/containerManager.sh
-chown root.root /usr/local/bin/containerManager.sh
-chmod 4744 /usr/local/bin/containerManager.sh
-
-# Allow for passwordless shell_exec only the caas listener
-echo "## Allow apache to use sudo ONLY on /usr/local/bin/containerManager.sh
-    Cmnd_Alias CSCRIPT = /usr/local/bin/containerManager.sh
-    www-data ALL=(root)   NOPASSWD: CSCRIPT
-    Defaults!CSCRIPT !requiretty" > /etc/sudoers.d/CaaS
+chown root.www-data /usr/local/bin/containerManager.sh
+chmod 4755 /usr/local/bin/containerManager.sh

@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]
-    then echo "You should run this script as root"
-    exit 1
-fi
-
 LOCATION='/opt/docker-ubuntu-vnc-desktop'
 
 while [[ $# > 1 ]]
@@ -36,18 +31,20 @@ done
 
 if [ "$ACTION" == 'add' ];then
   [ ! -z "$PASSWORD" ] || exit 1
-  sed -i 's,^\(PASS=\).*,\1'${PASSWORD}',' $LOCATION/startup.sh
-  docker build --rm -t dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT docker-ubuntu-vnc-desktop
+  sed -i 's,^\(ENV PASSWORD \).*,\1'${PASSWORD}',' $LOCATION/Dockerfile
+  docker build --rm -t dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT $LOCATION
   if [ ! "$?" -eq 0 ]; then
     exit $?
   fi
 
-  docker run -i -t -p $PORT:6080 dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT
-  if [ ! "$?" -eq 0 ]; then
+  docker run -t --detach -p $PORT:6080 -c 250 dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT
+  RUN_RESULT=$?
+  sed -i 's,^\(ENV PASSWORD \).*,\1'unknown',' $LOCATION/Dockerfile
+
+  if [ ! "$RUN_RESULT" -eq 0 ]; then
     exit $?
   fi
-  sed -i 's,^\(PASS=\).*,\1'_EMPTY_',' $LOCATION/startup.sh
   exit 0
-elif [ "$ACTION" == 'remove' ];then
+#elif [ "$ACTION" == 'remove' ];then
   # To be implemented
 fi
