@@ -9,8 +9,10 @@ fi
 echo -n "Enter a new  mysql user password for the user 'CaaS_admin': "
 read -s PASSWORD;
 
-echo -n "Repeat the password: "
+echo "Repeat the password: "
 read -s PASSWORD_CONFIRM;
+
+echo '';
 
 if [ $PASSWORD != $PASSWORD_CONFIRM ]
 then
@@ -31,7 +33,7 @@ git clone https://github.com/BartWillems/CaaS_website html
 
 # Insert password in /var/www/html/connection.php
 if grep -q '$db_password = ' html/php_functions/connection.php; then
-    sed -i "/\$db_password = /c\\$PASSWORD" html/php_functions/connection.php
+    sed -i "/\$db_password = /c\$db_password  = '$PASSWORD';" html/php_functions/connection.php
 else
     echo "\$db_password = $PASSWORD" >> html/php_functions/connection.php
 fi
@@ -39,6 +41,5 @@ fi
 echo "Downloading the container config files..."
 git clone https://github.com/BartWillems/docker-ubuntu-vnc-desktop /opt/docker-ubuntu-vnc-desktop
 sudo chown -R www-data /opt/docker-ubuntu-vnc-desktop
-ln -s $(pwd)/CaaS_listener.sh /usr/local/bin/containerManager.sh
-chown root.www-data /usr/local/bin/containerManager.sh
-chmod 4755 /usr/local/bin/containerManager.sh
+ln -s $(pwd)/containerManager.sh /usr/local/bin/containerManager.sh
+chmod +x /usr/local/bin/containerManager.sh
