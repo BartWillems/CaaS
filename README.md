@@ -11,6 +11,10 @@ To begin using CaaS you should
 * Install docker
 * Install a LAMP stack
 * clone [this](https://github.com/BartWillems/CaaS) repo (git clone https://github.com/BartWillems/CaaS) and run install.sh
+* copy the html folder to a chosen location (eg /var/www/html)
+
+The website makes use of mod_rewrite and mod_proxy through a .htaccess file.
+In order to make these work you should install and enable these modules and also allow 'AllowOverride' on your website folder in your apache config.
 
 ## Bugs and Issues
 

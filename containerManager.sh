@@ -7,7 +7,7 @@ do
     key="$1"
     case $key in
         --action)
-            # add / remove
+            # add / remove / start / stop
             ACTION="$2"
         ;;
         --containerName)
@@ -45,6 +45,14 @@ if [ "$ACTION" == 'add' ];then
     exit $?
   fi
   exit 0
+elif [ "$ACTION" == 'start' ];then
+  CONTAINER_ID=$(docker ps -a | grep dorowu/ubuntu-desktop-lxde-vnc-${NAME}-${PORT} | awk '{print $1}')
+  docker start $CONTAINER_ID
+  exit $?
+elif [ "$ACTION" == 'stop' ];then
+  CONTAINER_ID=$(docker ps -a | grep dorowu/ubuntu-desktop-lxde-vnc-${NAME}-${PORT} | awk '{print $1}')
+  docker stop $CONTAINER_ID
+  exit $?
 #elif [ "$ACTION" == 'remove' ];then
   # To be implemented
 fi
