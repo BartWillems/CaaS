@@ -32,12 +32,12 @@ done
 if [ "$ACTION" == 'add' ];then
   [ ! -z "$PASSWORD" ] || exit 1
   sed -i 's,^\(ENV PASSWORD \).*,\1'${PASSWORD}',' $LOCATION/Dockerfile
-  docker build --rm -t dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT $LOCATION
+  docker build --no-cache=false -t dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT $LOCATION
   if [ ! "$?" -eq 0 ]; then
     exit $?
   fi
 
-  docker run -t --detach -p $PORT:6080 -c 250 dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT
+  docker run --kernel-memory 50M -t --detach -p $PORT:6080 -c 250 dorowu/ubuntu-desktop-lxde-vnc-$NAME-$PORT
   RUN_RESULT=$?
   sed -i 's,^\(ENV PASSWORD \).*,\1'unknown',' $LOCATION/Dockerfile
 
